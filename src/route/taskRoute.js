@@ -1,9 +1,14 @@
 const router = require('express').Router()
+const TaskDAO = require('../dao/taskDAO')
+
+const dao = new TaskDAO()
 
 const tasks = []
 
-router.get('/tasks', (req, res) => {
-    res.json(tasks)
+router.get('/tasks', (_, res) => {
+    dao.listAll()
+    .then((tasks) => response.send(tasks))
+    .catch((err) => response.status(500).send(err))
 })
 
 router.post('/task', (req, res) => {
@@ -15,12 +20,21 @@ router.post('/task', (req, res) => {
         isDone: body.isDone,
         isPriority: body.isPriority
     }
-    tasks.push(task)
-    res.status(201)
-    res.send(task)
+
+    dao.insert(task)
+    .then(() => res.status(201).json(data))
+    .catch(err=> res.status(500).send(err))
+
 })
 
 router.get('/task/:taskId', (req, res) => {
+
+    // dao.findTaskById(req.params.taskId)
+    // .then(task => {
+
+    // })
+    // .catch()
+
     const task = tasks.find(t => t.id == req.params.taskId)
 
     if (task) {
