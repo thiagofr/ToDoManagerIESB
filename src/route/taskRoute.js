@@ -3,12 +3,10 @@ const TaskDAO = require('../dao/taskDAO')
 
 const dao = new TaskDAO()
 
-const tasks = []
-
 router.get('/tasks', (_, res) => {
     dao.listAll()
-    .then((tasks) => response.send(tasks))
-    .catch((err) => response.status(500).send(err))
+        .then((tasks) => response.send(tasks))
+        .catch((err) => response.status(500).send(err))
 })
 
 router.post('/task', (req, res) => {
@@ -22,56 +20,52 @@ router.post('/task', (req, res) => {
     }
 
     dao.insert(task)
-    .then(() => res.status(201).json(data))
-    .catch(err=> res.status(500).send(err))
+        .then(() => res.status(201).json(data))
+        .catch(err => res.status(500).send(err))
 
 })
 
 router.get('/task/:taskId', (req, res) => {
 
-    // dao.findTaskById(req.params.taskId)
-    // .then(task => {
-
-    // })
-    // .catch()
-
-    const task = tasks.find(t => t.id == req.params.taskId)
-
-    if (task) {
-        res.status(200)
-        res.json(task)
-    } else {
-        res.sendStatus(404)
-    }
-
+    dao.findTaskById(req.params.taskId)
+        .then(task => {
+            if (task) {
+                res.status(200)
+                    .json(task)
+            } else {
+                res.sendStatus(404)
+            }
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
 })
 
 router.put('/task/:taskId', (req, res) => {
     const { body } = req;
-    const task = tasks.find(t => t.id == req.params.taskId);
-
-    if (task) {
-        task.title = body.title;
-        task.resume = body.resume;
-        task.isDone = body.isDone;
-        task.isPriority = body.isPriority;
-        res.send(task);
-    } else {
-        res.status(404);
-        res.send();
+    const task = {
+        title: body.title,
+        resume: body.resume,
+        isDone: body.isDone,
+        isPriority: body.isPriority
     }
+
+    dao.insert(task)
+        .then(_ => res.json(task))
+        .catch(err => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(500)
+            }
+        })
+
 });
 
 router.delete('/task/:taskId', (req, res) => {
-    const task = tasks.find(t => t.id === req.params.taskId);
-    if (task) {
-        const taskIndex = tasks.indexOf(task);
-        tasks.splice(taskIndex, 1);
-        res.send(task);
-    } else {
-        res.status(404);
-        res.send();
-    }
+    dao.remove(req.params.taskId)
+            .then(data => res.status(200).json(data))
+            .catch(err => res.status(500).json(err))
 })
 
 module.exports = router

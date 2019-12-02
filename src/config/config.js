@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser')
 const taskRoute = require('../route/taskRoute')
+const loginRoute = require('../route/loginRoute')
 const { tokenJWTVerify } = require('../middleware/jwtUtils')
 const TaskDAO = require('../dao/taskDAO')
 
@@ -15,6 +16,8 @@ module.exports = (app) => {
     app.use(tokenJWTVerify)
 
     app.use(taskRoute)
+
+    app.use(loginRoute)
 
     return new Promise((resolve, reject) => {
         dao.init()
