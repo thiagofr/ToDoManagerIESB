@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const jwt = require('jsonwebtoken')
 const { secret } = require('../config/secret')
 
 router.post('/login', (req, res) => {

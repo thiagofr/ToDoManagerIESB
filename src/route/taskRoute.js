@@ -5,11 +5,11 @@ const dao = new TaskDAO()
 
 router.get('/tasks', (_, res) => {
     dao.listAll()
-        .then((tasks) => response.send(tasks))
-        .catch((err) => response.status(500).send(err))
+        .then((tasks) => res.send(tasks))
+        .catch((err) => res.status(500).send(err))
 })
 
-router.post('/task', (req, res) => {
+router.post('/tasks', (req, res) => {
     const { body } = req
     const task = {
         id: Math.random().toString().replace('0.', ''),
@@ -18,14 +18,13 @@ router.post('/task', (req, res) => {
         isDone: body.isDone,
         isPriority: body.isPriority
     }
-
     dao.insert(task)
-        .then(() => res.status(201).json(data))
+        .then(() => res.status(201).json(task))
         .catch(err => res.status(500).send(err))
 
 })
 
-router.get('/task/:taskId', (req, res) => {
+router.get('/tasks/:taskId', (req, res) => {
 
     dao.findTaskById(req.params.taskId)
         .then(task => {
@@ -37,11 +36,12 @@ router.get('/task/:taskId', (req, res) => {
             }
         })
         .catch(err => {
-            res.status(500).json(err)
+            console.log("error", err)
+            res.status(404).json(err)
         })
 })
 
-router.put('/task/:taskId', (req, res) => {
+router.put('/tasks/:taskId', (req, res) => {
     const { body } = req;
     const task = {
         title: body.title,
@@ -62,7 +62,7 @@ router.put('/task/:taskId', (req, res) => {
 
 });
 
-router.delete('/task/:taskId', (req, res) => {
+router.delete('/tasks/:taskId', (req, res) => {
     dao.remove(req.params.taskId)
             .then(data => res.status(200).json(data))
             .catch(err => res.status(500).json(err))

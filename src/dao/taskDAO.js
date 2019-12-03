@@ -48,7 +48,7 @@ class TaskDAO {
                 Item: {
                     "id": { S: id },
                     "title": { S: task.title },
-                    "description": { S: task.description },
+                    "resume": { S: task.resume },
                     "isPriority": { BOOL: task.isPriority },
                     "isDone": { BOOL: task.isDone }
                 }
@@ -59,7 +59,7 @@ class TaskDAO {
                     resolve({
                         id,
                         title: task.title,
-                        description: task.description,
+                        resume: task.resume,
                         isPriority: task.isPriority,
                         isDone: task.isDone
                     })
@@ -80,7 +80,7 @@ class TaskDAO {
                         const task = {
                             id: item.id.S,
                             title: item.title.S,
-                            description: item.description.S,
+                            resume: item.resume.S,
                             isPriority: item.isPriority.BOOL,
                             isDone: item.isDone.BOOL,
                         }
@@ -92,7 +92,7 @@ class TaskDAO {
         })
     }
 
-    findTaskById() {
+    findTaskById(id) {
         return new Promise((resolve, reject) => {
             dynamoDB.getItem({
                 TableName: 'Tasks',
@@ -109,7 +109,7 @@ class TaskDAO {
                         task = {
                             id: item.id.S,
                             title: item.title.S,
-                            description: item.description.S,
+                            resume: item.resume.S,
                             isPriority: item.isPriority.BOOL,
                             isDone: item.isDone.BOOL,
                         }
