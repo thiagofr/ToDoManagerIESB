@@ -127,13 +127,11 @@ class TaskDAO {
                 Key: {
                     "id": { S: id }
                 }
-            }, (err) => {
+            }, (err, data) => {
                 if (err) {
                     reject(err)
                 } else {
-                    resolve({
-                        message: 'deleted'
-                    })
+                    resolve(data)
                 }
             })
         })

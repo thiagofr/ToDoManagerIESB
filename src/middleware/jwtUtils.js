@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const { secret } = require('../config/secret')
 
 const tokenJWTVerify = (req, res, next) => {
-    if (req.url == '/login') {
+    if (req.url == '/' || req.url == '/login') {
         next();
     } else {
         const token = req.headers['x-access-token'];

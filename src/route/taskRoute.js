@@ -44,6 +44,7 @@ router.get('/tasks/:taskId', (req, res) => {
 router.put('/tasks/:taskId', (req, res) => {
     const { body } = req;
     const task = {
+        id: req.params.taskId,
         title: body.title,
         resume: body.resume,
         isDone: body.isDone,
@@ -63,9 +64,20 @@ router.put('/tasks/:taskId', (req, res) => {
 });
 
 router.delete('/tasks/:taskId', (req, res) => {
-    dao.remove(req.params.taskId)
-            .then(data => res.status(200).json(data))
-            .catch(err => res.status(500).json(err))
+
+    dao.findTaskById(req.params.taskId)
+        .then(task => {
+            if (task) {
+                dao.remove(req.params.taskId)
+                    .then(data => res.status(200).json(task))
+                    .catch(err => res.status(500).json(err))
+            } else {
+                res.sendStatus(404)
+            }
+        })
+        .catch(err => {
+            res.status(404).json(err)
+        })
 })
 
 module.exports = router

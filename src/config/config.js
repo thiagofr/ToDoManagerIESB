@@ -1,4 +1,5 @@
 const bodyParser = require('body-parser')
+const indexRoute = require('../route/index')
 const taskRoute = require('../route/taskRoute')
 const loginRoute = require('../route/loginRoute')
 const { tokenJWTVerify } = require('../middleware/jwtUtils')
@@ -13,6 +14,8 @@ module.exports = (app) => {
     }))
     app.use(bodyParser.json())
 
+    app.use(indexRoute)
+    
     app.use(tokenJWTVerify)
 
     app.use(taskRoute)
