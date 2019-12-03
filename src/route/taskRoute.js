@@ -14,7 +14,7 @@ router.post('/tasks', (req, res) => {
     const task = {
         id: Math.random().toString().replace('0.', ''),
         title: body.title,
-        resume: body.resume,
+        description: body.description,
         isDone: body.isDone,
         isPriority: body.isPriority
     }
@@ -46,7 +46,7 @@ router.put('/tasks/:taskId', (req, res) => {
     const task = {
         id: req.params.taskId,
         title: body.title,
-        resume: body.resume,
+        description: body.description,
         isDone: body.isDone,
         isPriority: body.isPriority
     }

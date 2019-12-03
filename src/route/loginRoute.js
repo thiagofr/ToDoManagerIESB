@@ -10,7 +10,7 @@ router.post('/login', (req, res) => {
         });
         res.send({ token });
     } else {
-        res.status(403).send({ message: 'Error in username or password' });
+        res.status(401).send({ message: 'Error in username or password' });
     }
 })
 

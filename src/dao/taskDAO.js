@@ -48,7 +48,7 @@ class TaskDAO {
                 Item: {
                     "id": { S: id },
                     "title": { S: task.title },
-                    "resume": { S: task.resume },
+                    "description": { S: task.description },
                     "isPriority": { BOOL: task.isPriority },
                     "isDone": { BOOL: task.isDone }
                 }
@@ -59,7 +59,7 @@ class TaskDAO {
                     resolve({
                         id,
                         title: task.title,
-                        resume: task.resume,
+                        description: task.description,
                         isPriority: task.isPriority,
                         isDone: task.isDone
                     })
@@ -80,7 +80,7 @@ class TaskDAO {
                         const task = {
                             id: item.id.S,
                             title: item.title.S,
-                            resume: item.resume.S,
+                            description: item.description.S,
                             isPriority: item.isPriority.BOOL,
                             isDone: item.isDone.BOOL,
                         }
@@ -109,7 +109,7 @@ class TaskDAO {
                         task = {
                             id: item.id.S,
                             title: item.title.S,
-                            resume: item.resume.S,
+                            description: item.description.S,
                             isPriority: item.isPriority.BOOL,
                             isDone: item.isDone.BOOL,
                         }
